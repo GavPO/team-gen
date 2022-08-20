@@ -69,7 +69,7 @@ const internQuestions = [
     },
     {
         type: "input",
-        name: "empID",
+        name: "email",
         message: "What is your interns's email?"
     },
     {

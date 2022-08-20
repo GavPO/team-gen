@@ -7,6 +7,7 @@ function makeTeam() {
     let qNum = 0;
     const managerInfo = {};
     const teamRoster = [];
+
     async function askManagerQuestions() {
         let prompt = await inquirer
         .prompt({
@@ -23,66 +24,77 @@ function makeTeam() {
             teamRoster.push(managerInfo);
             makeManager(managerInfo);
             if(managerInfo.empType === "engineer") {
-                let qNum = 0;
+                qNum = 0;
                 const engineerInfo = {};
-                async function askEngineerQuestions() {
-                    let prompt = await inquirer
-                    .prompt({
-                        type: engineerQuestions[qNum].type,
-                        name: engineerQuestions[qNum].name,
-                        message: engineerQuestions[qNum].message,
-                        choices: engineerQuestions[qNum].choices
-                    })
-                    engineerInfo[engineerQuestions[qNum].name] = prompt[engineerQuestions[qNum].name];
-                    qNum++
-                    if(qNum < engineerQuestions.length) {
-                        askEngineerQuestions();
-                    } else {
-                        teamRoster.push(engineerInfo);
-                        console.log(engineerInfo);
-                        if (engineerInfo.anotherEmp === "engineer") {
-                            askEngineerQuestions();
-                        } else if (engineerInfo.anotherEmp === "intern") {
-                            askInternQuestions();
-                        } else {
-                            return;
-                        }
-                    }
-                }
-                askEngineerQuestions()
+                askEngineerQuestions(qNum, engineerInfo)
             } else if(employeeInfo.empType === "intern") {
-                let qNum = 0;
+                qNum = 0;
                 const internInfo = {};
-                async function askInternQuestions() {
-                    let prompt = await inquirer
-                    .prompt({
-                        type: internQuestions[qNum].type,
-                        name: internQuestions[qNum].name,
-                        message: internQuestions[qNum].message,
-                        choices: internQuestions[qNum].choices
-                    })
-                    internInfo[internQuestions[qNum].name] = prompt[internQuestions[qNum].name];
-                    qNum++
-                    if(qNum < engineerQuestions.length) {
-                        askInternQuestions();
-                    } else {
-                        teamRoster.push(internInfo);
-                        console.log(internInfo);
-                        if (internInfo.anotherEmp === "engineer") {
-                            askEngineerQuestions();
-                        } else if (internInfo.anotherEmp === "intern") {
-                            askInternQuestions();
-                        } else {
-                            return;
-                        }
-                    }
-                }
-            askInternQuestions()
+                askInternQuestions(qNum, internInfo)
             } else {
                 return;
             }
         }
-    }
+    };
+
+    async function askEngineerQuestions(qNum, engineerInfo) {
+        let prompt = await inquirer
+        .prompt({
+            type: engineerQuestions[qNum].type,
+            name: engineerQuestions[qNum].name,
+            message: engineerQuestions[qNum].message,
+            choices: engineerQuestions[qNum].choices
+        })
+        engineerInfo[engineerQuestions[qNum].name] = prompt[engineerQuestions[qNum].name];
+        qNum++
+        if(qNum < engineerQuestions.length) {
+            askEngineerQuestions(qNum, engineerInfo);
+        } else {
+            teamRoster.push(engineerInfo);
+            makeEngineer(engineerInfo)
+            if (engineerInfo.anotherEmp === "engineer") {
+                qNum = 0;
+                engineerInfo = {};
+                askEngineerQuestions(qNum, engineerInfo);
+            } else if (engineerInfo.anotherEmp === "intern") {
+                qNum = 0;
+                internInfo = {};
+                askInternQuestions(qNum, internInfo);
+            } else {
+                console.log(teamRoster);
+            }
+        }
+    };
+
+    async function askInternQuestions(qNum, internInfo) {
+        let prompt = await inquirer
+        .prompt({
+            type: internQuestions[qNum].type,
+            name: internQuestions[qNum].name,
+            message: internQuestions[qNum].message,
+            choices: internQuestions[qNum].choices
+        })
+        internInfo[internQuestions[qNum].name] = prompt[internQuestions[qNum].name];
+        qNum++
+        if(qNum < engineerQuestions.length) {
+            askInternQuestions(qNum, internInfo);
+        } else {
+            teamRoster.push(internInfo);
+            makeIntern(internInfo);
+            if (internInfo.anotherEmp === "engineer") {
+                qNum = 0;
+                engineerInfo = {};
+                askEngineerQuestions(qNum, engineerInfo);
+            } else if (internInfo.anotherEmp === "intern") {
+                qNum = 0;
+                internInfo = {};
+                askInternQuestions(qNum, internInfo);
+            } else {
+                console.log(teamRoster);
+            }
+        }
+    };
+
     askManagerQuestions();
 };
 
@@ -93,10 +105,12 @@ function makeManager(emp) {
 
 function makeEngineer(emp) {
     const newEngineer = new Engineer(emp.fullName, emp.empID, emp.email, "Engineer", emp.github)
+    console.log(newEngineer);
 };
 
 function makeIntern(emp) {
     const newIntern = new Intern(emp.fullName, emp.empID, emp.email, "Intern", emp.school)
+    console.log(newIntern);
 };
 
 module.exports = {makeTeam}
