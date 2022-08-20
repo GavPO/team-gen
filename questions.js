@@ -22,7 +22,7 @@ const teamManagerQuestions = [
         type: "list",
         name: "empType",
         message: "What kind of employee are you adding?",
-        choices: ["engineer", "intern"]
+        choices: ["engineer", "intern", "none"]
     }
 ];
 

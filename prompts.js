@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const {teamManagerQuestions, engineerQuestions, internQuestions} = require('./questions.js');
 const {Manager, Engineer, Intern} = require('./constructors.js') 
-const {genTeam} = require('./htmlGen.js')
+const {genTeamArray} = require('./htmlGen.js')
 
 
 function makeTeam() {
@@ -97,17 +97,17 @@ function makeTeam() {
 
 function makeManager(emp) {
     const teamManager = new Manager(emp.fullName, emp.empID, emp.email, "Manager", emp.number)
-    genTeam(teamManager);
+    genTeamArray(teamManager);
 }
 
 function makeEngineer(emp) {
     const newEngineer = new Engineer(emp.fullName, emp.empID, emp.email, "Engineer", emp.github)
-    genTeam(newEngineer);
+    genTeamArray(newEngineer);
 };
 
 function makeIntern(emp) {
     const newIntern = new Intern(emp.fullName, emp.empID, emp.email, "Intern", emp.school)
-    genTeam(newIntern);
+    genTeamArray(newIntern);
 };
 
 module.exports = {makeTeam}
