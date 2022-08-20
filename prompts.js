@@ -1,12 +1,12 @@
 const inquirer = require('inquirer');
 const {teamManagerQuestions, engineerQuestions, internQuestions} = require('./questions.js');
 const {Manager, Engineer, Intern} = require('./constructors.js') 
+const {genTeam} = require('./htmlGen.js')
 
 
 function makeTeam() {
     let qNum = 0;
     const managerInfo = {};
-    const teamRoster = [];
 
     async function askManagerQuestions() {
         let prompt = await inquirer
@@ -21,13 +21,12 @@ function makeTeam() {
         if(qNum < teamManagerQuestions.length) {
             askManagerQuestions()
         } else {
-            teamRoster.push(managerInfo);
             makeManager(managerInfo);
             if(managerInfo.empType === "engineer") {
                 qNum = 0;
                 const engineerInfo = {};
                 askEngineerQuestions(qNum, engineerInfo)
-            } else if(employeeInfo.empType === "intern") {
+            } else if(managerInfo.empType === "intern") {
                 qNum = 0;
                 const internInfo = {};
                 askInternQuestions(qNum, internInfo)
@@ -50,7 +49,6 @@ function makeTeam() {
         if(qNum < engineerQuestions.length) {
             askEngineerQuestions(qNum, engineerInfo);
         } else {
-            teamRoster.push(engineerInfo);
             makeEngineer(engineerInfo)
             if (engineerInfo.anotherEmp === "engineer") {
                 qNum = 0;
@@ -61,7 +59,7 @@ function makeTeam() {
                 internInfo = {};
                 askInternQuestions(qNum, internInfo);
             } else {
-                console.log(teamRoster);
+                return;
             }
         }
     };
@@ -79,7 +77,6 @@ function makeTeam() {
         if(qNum < engineerQuestions.length) {
             askInternQuestions(qNum, internInfo);
         } else {
-            teamRoster.push(internInfo);
             makeIntern(internInfo);
             if (internInfo.anotherEmp === "engineer") {
                 qNum = 0;
@@ -90,7 +87,7 @@ function makeTeam() {
                 internInfo = {};
                 askInternQuestions(qNum, internInfo);
             } else {
-                console.log(teamRoster);
+                return;
             }
         }
     };
@@ -100,17 +97,17 @@ function makeTeam() {
 
 function makeManager(emp) {
     const teamManager = new Manager(emp.fullName, emp.empID, emp.email, "Manager", emp.number)
-    console.log(teamManager);
+    genTeam(teamManager);
 }
 
 function makeEngineer(emp) {
     const newEngineer = new Engineer(emp.fullName, emp.empID, emp.email, "Engineer", emp.github)
-    console.log(newEngineer);
+    genTeam(newEngineer);
 };
 
 function makeIntern(emp) {
     const newIntern = new Intern(emp.fullName, emp.empID, emp.email, "Intern", emp.school)
-    console.log(newIntern);
+    genTeam(newIntern);
 };
 
 module.exports = {makeTeam}
