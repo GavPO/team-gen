@@ -1,6 +1,4 @@
-const bootCSS = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">`;
-const jqSRC = `<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>`;
-const bootSRC = `<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>`;
+const fs = require('fs');
 
 const team = [];
 
@@ -8,8 +6,41 @@ function genTeamArray(emp) {
     team.push(emp)
 };
 
-function makeEmployeeCards(employees) {
-    employees.forEach((emp) => {
+async function makeHTMLPage() {
+    const fileWrite = new Promise((resolve, reject) => { fs.writeFile('index.html', 
+    `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="card-container"></div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <script src="./htmlGen.js"></script>
+    </body>
+    </html>`, err => err ? console.log(err) : console.log("Page made"));
+    })
+    fileWrite.then(res => {
+        return res;
+    })
+    fileWrite.catch(err => {
+        return err
+    })
+    
+
+};
+
+async function makeEmployeeCards() {
+    await makeHTMLPage();
+    console.log("HIT");
+    const cardContainer = $("#card-container")
+    team.forEach((emp) => {
         var cardEl = $("<div>")
         var cardBodyEl = $("<div>");
         var cardTitle = $("<h5>");
@@ -50,6 +81,9 @@ function makeEmployeeCards(employees) {
             listSchool.text(emp.school);
             cardList.append(listSchool);
         };
+        cardContainer.append(cardEl);
+
+        
     });
 
     
@@ -58,4 +92,4 @@ function makeEmployeeCards(employees) {
 
 
 
-module.exports = {genTeamArray}
+module.exports = {genTeamArray, makeEmployeeCards}

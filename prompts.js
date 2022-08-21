@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const {teamManagerQuestions, engineerQuestions, internQuestions} = require('./questions.js');
 const {Manager, Engineer, Intern} = require('./constructors.js') 
-const {genTeamArray} = require('./htmlGen.js')
+const {genTeamArray, makeEmployeeCards} = require('./htmlGen.js')
 
 
 function makeTeam() {
@@ -31,7 +31,7 @@ function makeTeam() {
                 const internInfo = {};
                 askInternQuestions(qNum, internInfo)
             } else {
-                return;
+                makeEmployeeCards();
             }
         }
     };
@@ -59,7 +59,7 @@ function makeTeam() {
                 internInfo = {};
                 askInternQuestions(qNum, internInfo);
             } else {
-                return;
+                makeEmployeeCards();
             }
         }
     };
@@ -87,7 +87,7 @@ function makeTeam() {
                 internInfo = {};
                 askInternQuestions(qNum, internInfo);
             } else {
-                return;
+                makeEmployeeCards();
             }
         }
     };
