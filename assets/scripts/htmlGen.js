@@ -79,7 +79,6 @@ function makeEmployeeCards() {
             </div>`
         };
     });
-    console.log(empDivArr);
 
     
 };
