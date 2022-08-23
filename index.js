@@ -1,4 +1,4 @@
-const {makeTeam} = require ('./prompts.js')
+const {makeTeam} = require ('./assets/scripts/prompts')
 
 function init() {
     makeTeam()
