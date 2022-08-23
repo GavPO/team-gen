@@ -35,6 +35,10 @@ class Engineer extends Employee {
         super(name, id, email, type);
         this.github = github;
     };
+
+    getGitHub() {
+        return this.github;
+    }
 };
 
 class Intern extends Employee {
@@ -42,6 +46,10 @@ class Intern extends Employee {
         super(name, id, email, type);
         this.school = school;
     };
+
+    getSchool() {
+        return this.school;
+    }
 };
 
-module.exports = {Manager, Engineer, Intern};
+module.exports = {Employee, Manager, Engineer, Intern};

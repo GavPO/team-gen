@@ -19,6 +19,7 @@ Install the program from GitHub, after installing the program, run npm i and ins
 
 After installing all the required files, run index.js using node, and go through the prompts. When the prompts are finished, a HTML page will be generated for your team roster, with links for their emails, or githubs.
 
+Walkthrough Video: (https://drive.google.com/file/d/1czdJotM9qERX9_RBTeYrEeEPjEPcI9dg/view?usp=sharing)
 ![Walkthrough](./assets/images/walkthrough.gif)
 
 ## Credits
